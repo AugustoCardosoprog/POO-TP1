@@ -21,8 +21,12 @@ public class Tarea {
     public void setCompleta(boolean completa) {
         this.completa = completa;
     }
-    public boolean getCompleta(){
-        return  completa;
+    public String getCompleta(){
+        if (completa==true){
+            return "Completa";
+        }else {
+            return "Incompleta";
+        }
     }
     public String getCompletaStr(){
         String acumulador;
@@ -50,7 +54,6 @@ public class Tarea {
         }
         return resp;
     }
-
     public String getFechaStr(){
         if (fechaLimite!=null) {
             return fechaLimite.toString();
@@ -65,7 +68,6 @@ public class Tarea {
         comprobarVencida();
         return vencida;
     }
-
     public String getVencidaStr(){
         comprobarVencida();
         String acumulador;
@@ -76,7 +78,6 @@ public class Tarea {
         }
         return acumulador;
     }
-
     public String getDescripcion(){
         comprobarVencida();
         String acumulador;
@@ -87,7 +88,6 @@ public class Tarea {
         }
         return acumulador;
     }
-
     public String mostrar(){
         String acumulador;
         comprobarVencida();
