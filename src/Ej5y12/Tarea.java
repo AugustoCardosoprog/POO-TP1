@@ -1,4 +1,4 @@
-package Ej5;
+package Ej5y12;
 
 import java.time.LocalDate;
 
@@ -39,7 +39,14 @@ public class Tarea {
     }
     public void setFechaLimite(LocalDate fechaLimite) {
         this.fechaLimite = fechaLimite;
+        comprobarVencida();
     }
+
+    public LocalDate getFechaLimite() {
+        comprobarVencida();
+        return fechaLimite;
+    }
+
     public boolean comprobarVencida(){
         boolean resp=false;
         LocalDate fechaActual = LocalDate.now();

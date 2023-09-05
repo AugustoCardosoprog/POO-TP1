@@ -1,10 +1,12 @@
-package Ej5;
+package Ej5y12;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
-public class mainEj5 {
+public class mainEj5y12 {
     public static void main(String[] args) {
         System.out.println("***** Lista de tareas *****\n");
 
@@ -121,7 +123,7 @@ public class mainEj5 {
                     }
                     break;
                 case 10:
-                    // Mostrar todo
+                    // Mostrar todp
                     mostrar(listaDeTareas);
                     Tarea tarea9 = selecionarNumeroTarea(listaDeTareas);
                     if (tarea9 != null) {
@@ -133,8 +135,19 @@ public class mainEj5 {
                     mostrar(listaDeTareas);
                     break;
                 case 12:
-                    //Crear ejemplos
+                    //Cargar ejemplos
                     crearEjemplos(listaDeTareas);
+                    break;
+                case 13:
+                    //Mostrar no vencidas ordenadas por prioridad.
+                    System.out.println("No vencidas ordenadas por prioridad ");
+                    mostrar(listaNoVencidasPorPrioridad(listaDeTareas));
+                    break;
+
+                case 14:
+                    //Mostrar no vencidas ordenadas por fecha.
+                    System.out.println("No vencidas ordenadas por fecha ");
+                    mostrar(listaNoVencidasPorFecha(listaDeTareas));
                     break;
                 case 0:
                     System.out.println("Saliendo del programa...");
@@ -190,12 +203,71 @@ public class mainEj5 {
 
         //C "Ir al cine a ver la nueva película de Marvel". Debe tener fecha límite de ayer y estar incompleta.
         Tarea tareaEC = new Tarea("Ir al cine a ver la nueva película de Marvel");
-        tareaEB.setFechaLimite(fechaActual.minusDays(1));
+        tareaEC.setFechaLimite(fechaActual.minusDays(1));
         tareaEC.setCompleta(false);
         lista.add(tareaEC);
         System.out.println(tareaEC.mostrar());
     }
 
+    public static ArrayList<Tarea> listaNoVencidas(ArrayList<Tarea> tareas){
+        ArrayList<Tarea> noVencidas = new ArrayList<>();
+
+        for (Tarea tarea:tareas) {
+            if (!tarea.getVencida()){
+                noVencidas.add(tarea);
+            }
+        }
+        return noVencidas;
+    }
+
+    public static ArrayList<Tarea> listaNoVencidasPorPrioridad(ArrayList<Tarea> tareas){
+        ArrayList<Tarea> tareasNoVencidas = listaNoVencidas(tareas);
+        ArrayList<Tarea> tareasOrdenadas = new ArrayList<>();
+
+        for (Tarea tarea : tareasNoVencidas) {
+            if (tarea.getPrioridad() == "ALTA") {
+                tareasOrdenadas.add(tarea);
+            }
+        }
+        for (Tarea tarea : tareasNoVencidas) {
+            if (tarea.getPrioridad() == "MEDIA") {
+                tareasOrdenadas.add(tarea);
+            }
+        }
+        for (Tarea tarea : tareasNoVencidas) {
+            if (tarea.getPrioridad() == "BAJA") {
+                tareasOrdenadas.add(tarea);
+            }
+        }
+        return tareasOrdenadas;
+    }
+
+    public static ArrayList<Tarea> listaNoVencidasPorFecha(ArrayList<Tarea> tareas){
+        ArrayList<Tarea> tareasNoVencidas = listaNoVencidas(tareas);
+        ArrayList<Tarea> tareasOrdenadas = new ArrayList<>(tareasNoVencidas);
+        int n = tareasOrdenadas.size();
+
+        for (int i = 0; i < n - 1; i++) {
+            int imin = i;
+
+            for (int j = i + 1; j < n; j++) {
+                LocalDate fecha1 = tareasNoVencidas.get(j).getFechaLimite();
+                LocalDate fecha2 = tareasNoVencidas.get(imin).getFechaLimite();
+
+                if (fecha1!=null) {
+                    if (fecha1.isBefore(fecha2)) {
+                        imin = j;
+                    }
+                }
+            }
+            if (imin!= i) {
+                Tarea aux = tareasOrdenadas.get(i);
+                tareasOrdenadas.set(i, tareasOrdenadas.get(imin));
+                tareasOrdenadas.set(imin, aux);
+            }
+        }
+        return tareasOrdenadas;
+    }
     public static void printMenu(){
         System.out.println("¿Que desea hacer?");
         System.out.println("1. Crear Tarea");
@@ -210,6 +282,8 @@ public class mainEj5 {
         System.out.println("10. Mostrar todo de una tarea.");
         System.out.println("11. Mostrar tareas.");
         System.out.println("12. Cargar ejemplos.");
+        System.out.println("13. Mostrar no vencidas ordenadas por prioridad.");
+        System.out.println("14. Mostrar no vencidas ordenadas por fecha de vencimiento.");
         System.out.println("0. Salir.");
     }
 
