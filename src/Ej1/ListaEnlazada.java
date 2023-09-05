@@ -37,7 +37,7 @@ public class ListaEnlazada {
         NodoLista nodoActual = primero;
         int i = 0;
         if (contador == 0){
-            System.out.println("Lista vacia.");
+            System.out.println("Lista vacia.");///////////////////////
         } else {
             while (nodoActual != null) {
                 acumulador += (" Nodo " + i + ": " + nodoActual.getDato() + "\n");
